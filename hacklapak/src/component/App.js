@@ -1,26 +1,16 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  View
-} from 'react-native';
+import { StackNavigator } from 'react-navigation';
 
-import Header from './Header'
-import Body from './Body'
-import Footer from './Footer'
+import Home from './Home'
+import DetailItem from './DetailItem'
 
-export default class App extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Header/>
-        <Body/>
-        <Footer/>
-      </View>
-    );
-  }
-}
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
+const App = StackNavigator({
+  Home: {
+    screen: Home
+  },
+  DetailItem: {
+    screen: DetailItem
   }
 });
+
+export default App

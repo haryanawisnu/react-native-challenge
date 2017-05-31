@@ -8,9 +8,10 @@ import ListItem from './ListItem'
 
 export default class Body extends Component {
   render() {
+    console.log(this.props.navigation);
     return (
       <View style={styles.container}>
-        <ListItem/>
+        <ListItem navigation={this.props.navigation}/>
       </View>
     );
   }

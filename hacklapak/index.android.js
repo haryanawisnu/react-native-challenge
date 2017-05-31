@@ -5,12 +5,5 @@ import {
 
 import App from './src/component/App'
 
-export default class hacklapak extends Component {
-  render() {
-    return (
-        <App/>
-    );
-  }
-}
 
-AppRegistry.registerComponent('hacklapak', () => hacklapak);
+AppRegistry.registerComponent('hacklapak', () => App);

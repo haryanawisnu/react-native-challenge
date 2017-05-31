@@ -7,12 +7,14 @@ import {
   View,
   Image,
   LayoutAnimation,
-  ActivityIndicator
+  ActivityIndicator,
+  TouchableOpacity
 } from 'react-native';
 import {
   BUKALAPAK_KEY_ID,
   BUKALAPAK_KEY_VALUE
 } from '../env/key'
+import { StackNavigator } from 'react-navigation';
 
 class ListItem extends Component {
   constructor(props){
@@ -23,17 +25,33 @@ class ListItem extends Component {
   }
   componentWillMount(){
     LayoutAnimation.spring();
-    let self=this;
-    axios.get('https://api.bukalapak.com/v2/products.json?sort_by=Terbaru&conditions=new&nego=false&top_seller=1', {
-        headers: {
-          BUKALAPAK_KEY_ID: BUKALAPAK_KEY_VALUE
-        }
-    }).then(function(response) {
-      console.log(response.data.products);
-      self.setState({data: response.data.products});
-    })
+    // let self=this;
+    // axios.get('https://api.bukalapak.com/v2/products.json?sort_by=Terbaru&conditions=new&nego=false&top_seller=1', {
+    //     headers: {
+    //       BUKALAPAK_KEY_ID: BUKALAPAK_KEY_VALUE
+    //     }
+    // }).then(function(response) {
+    //   console.log(response.data.products);
+    //   self.setState({data: response.data.products});
+    // })
+    let arr=[
+    { id:'1',
+      images:[
+        'http://media.themalaymailonline.com/uploads/articles/2015-12/upin_dan_ipin_20151223.jpg',
+        'https://pbs.twimg.com/profile_images/774468294082342912/bUGyKWBf.jpg'
+      ]
+      ,name:'haha'
+      ,desc:'original\ngaransi resmi 1 tahun\ntali kulit\nfree tali kulit cadangan\nbox ekslusif\nbuku manual/garansi\ndiameter 3.5 cm'
+      ,seller_username:'wisnu'
+      ,seller_level:'juragan'
+      ,seller_positive_feedback:'181'
+      ,seller_negative_feedback:'0'
+      ,price:'1.999.999'
+    }]
+    this.setState({data: arr});
   }
   render() {
+    const { navigate } = this.props.navigation;
     if(this.state.data.length>0){
       return (
         <ScrollView>
@@ -41,13 +59,15 @@ class ListItem extends Component {
             this.state.data.map((data) =>{
               return(
                 <View style={styles.subcontainer} key={data.id}>
-                  <Image source={{uri:data.images[0]}} style={styles.img}/>
+                 <TouchableOpacity onPress={() => navigate('DetailItem',{ data: data})}>
+                    <Image source={{uri:data.images[0]}} style={styles.img}/>
                     <Text style={styles.title}>
                       {data.name.slice(0,25)}
                     </Text>
                     <Text style={styles.price}>
                       RP {data.price}
                     </Text>
+                  </TouchableOpacity>
                 </View>
               )
             })
