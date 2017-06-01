@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Swiper from "react-native-deck-swiper";
-import { StyleSheet, View, Text, Image, Button } from "react-native";
+import { StyleSheet, View, Text, Image, Button,Alert,ToastAndroid } from "react-native";
 
 export default class DetailItem extends Component {
   constructor(props) {
@@ -26,6 +26,8 @@ export default class DetailItem extends Component {
   componentWillMount(){
     const { params } = this.props.navigation.state;
     params.data.desc=params.data.desc.replace(/\n/g,', ')
+    params.data.desc=params.data.desc.replace(/<br>/g,', ')
+    params.data.desc=params.data.desc.slice(0,40)
     this.setState({
       data: params.data
     });
@@ -53,6 +55,7 @@ export default class DetailItem extends Component {
     });
   };
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
           <View style={styles.swiper}>
@@ -89,7 +92,14 @@ export default class DetailItem extends Component {
             </View>
             <View  style={styles.button}>
             <Button
-              onPress={()=>{console.log('ahh');}}
+              onPress={()=>{Alert.alert('Buy','Are you sure?',
+                          [
+                            {text: 'Cancel', onPress: () => console.log('Cancel Pressed!'),color:'#C62828'},
+                            {text: 'OK', onPress: () => {
+                                                          ToastAndroid.show('Success Buy', ToastAndroid.SHORT)
+                                                          navigate('Home')
+                                                        },color:'#C62828'},
+                          ])}}
               title="Buy"
               color="#AD1457"
             />

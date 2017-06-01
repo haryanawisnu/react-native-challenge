@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux'
 import {
   StyleSheet,
   ScrollView,
@@ -16,6 +17,8 @@ import {
 } from '../env/key'
 import { StackNavigator } from 'react-navigation';
 
+import { seeditem } from '../data/action/item'
+
 class ListItem extends Component {
   constructor(props){
     super(props)
@@ -23,8 +26,11 @@ class ListItem extends Component {
       data:[]
     }
   }
-  componentWillMount(){
+  componentDidMount(){
     LayoutAnimation.spring();
+    this.props.seeditem()
+  }
+  componentWillMount(){
     // let self=this;
     // axios.get('https://api.bukalapak.com/v2/products.json?sort_by=Terbaru&conditions=new&nego=false&top_seller=1', {
     //     headers: {
@@ -34,29 +40,29 @@ class ListItem extends Component {
     //   console.log(response.data.products);
     //   self.setState({data: response.data.products});
     // })
-    let arr=[
-    { id:'1',
-      images:[
-        'http://media.themalaymailonline.com/uploads/articles/2015-12/upin_dan_ipin_20151223.jpg',
-        'https://pbs.twimg.com/profile_images/774468294082342912/bUGyKWBf.jpg'
-      ]
-      ,name:'haha'
-      ,desc:'original\ngaransi resmi 1 tahun\ntali kulit\nfree tali kulit cadangan\nbox ekslusif\nbuku manual/garansi\ndiameter 3.5 cm'
-      ,seller_username:'wisnu'
-      ,seller_level:'juragan'
-      ,seller_positive_feedback:'181'
-      ,seller_negative_feedback:'0'
-      ,price:'1.999.999'
-    }]
-    this.setState({data: arr});
+    // let arr=[
+    // { id:'1',
+    //   images:[
+    //     'http://media.themalaymailonline.com/uploads/articles/2015-12/upin_dan_ipin_20151223.jpg',
+    //     'https://pbs.twimg.com/profile_images/774468294082342912/bUGyKWBf.jpg'
+    //   ]
+    //   ,name:'haha'
+    //   ,desc:'original\ngaransi resmi 1 tahun\ntali kulit\nfree tali kulit cadangan\nbox ekslusif\nbuku manual/garansi\ndiameter 3.5 cm'
+    //   ,seller_username:'wisnu'
+    //   ,seller_level:'juragan'
+    //   ,seller_positive_feedback:'181'
+    //   ,seller_negative_feedback:'0'
+    //   ,price:'1.999.999'
+    // }]
+    // this.setState({data: arr});
   }
   render() {
     const { navigate } = this.props.navigation;
-    if(this.state.data.length>0){
+    if(this.props.list_item.length>0){
       return (
         <ScrollView>
           {
-            this.state.data.map((data) =>{
+            this.props.list_item.map((data) =>{
               return(
                 <View style={styles.subcontainer} key={data.id}>
                  <TouchableOpacity onPress={() => navigate('DetailItem',{ data: data})}>
@@ -87,8 +93,8 @@ class ListItem extends Component {
 
 const styles = StyleSheet.create({
   subcontainer:{
-    marginTop: '5%',
-    marginBottom: '5%',
+    marginTop: '4%',
+    marginBottom: '3%',
     marginRight: '10%',
     marginLeft: '10%',
     height:200,
@@ -120,4 +126,16 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ListItem
+const mapStateToProps = (state) => {
+  return {
+    list_item :state.Item.list_item
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    seeditem: () => {dispatch(seeditem())}
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(ListItem)
