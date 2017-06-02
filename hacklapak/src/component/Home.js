@@ -9,6 +9,7 @@ import ScrollableTabView, {DefaultTabBar, } from 'react-native-scrollable-tab-vi
 import Header from './Header'
 import BodyItem from './BodyItem'
 import Footer from './Footer'
+import Chart from './Chart'
 
 export default class Home extends Component {
   static navigationOptions = {
@@ -31,7 +32,7 @@ export default class Home extends Component {
           <BodyItem navigation={this.props.navigation}/>
           </ScrollView>
           <ScrollView tabLabel="Chart" style={styles.view}>
-            <Header/>
+            <Chart/>
           </ScrollView>
         </ScrollableTabView>
         <Footer/>
